@@ -33,7 +33,7 @@ $userConfig = @{
     }
 
 # New-ADUser @userConfig`
-$userDepartment = Read-Host -Prompt "What department is the user in? Input the corresponding number.`n 1. Accounting`n 2. Estimating`n 3. HR`n 4. Ops`n 5. SPD`n 6. Marketing`n 7. Superintendent"
+$userDepartment = Read-Host -Prompt "What department is the user in? Input the corresponding number.`n 1. Accounting`n 2. Estimating`n 3. HR`n 4. Ops`n 5. SPD`n 6. Marketing`n 7. Superintendent`n"
 
 # Switch statement to select dept/role for group allocation of new user
 Switch($userDepartment){
@@ -43,4 +43,22 @@ Switch($userDepartment){
         break;
         }
 
-    2 { ForEach ($Group in $esti
+    2 { $estimatingChoice = Read-Host -Prompt "Is the user an estimator in SPD? Y/N"
+            If ($estimatingChoice.ToLower() -eq "y") {
+                ForEach ($Group in $spdEstimatingGroups) {
+                    Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+                    }
+                        }
+            Else {
+                ForEach ($Group in $estimatingGroups) {
+                    Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+                    }
+                        }
+        break;
+                            }
+
+    3 { ForEach ($Group in $hrGroups) {
+            Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+            }
+        break;
+        }
