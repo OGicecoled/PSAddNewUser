@@ -62,3 +62,51 @@ Switch($userDepartment){
             }
         break;
         }
+
+    4 { $opsChoice = Read-Host -Prompt "Is this user a 1. PM or 2. APM?"
+            If ($opsChoice -eq 1) {
+                ForEach ($Group in $opsPMGroups) {
+                    Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+                    }
+                        }
+            ElseIf ($opsChoice -eq 2) {
+                ForEach ($Group in $opsAPMGroups) {
+                    Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+                    }
+                        }
+            Else {
+                -Prompt "Incorrect choice"
+                }
+        break;
+        }
+
+        5 { $spdChoice = Read-Host -Prompt "Is this user a 1. PM or 2. APM?"
+            If ($spdChoice -eq 1) {
+                ForEach ($Group in $spdPMGroups) {
+                    Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+                    }
+                        }
+            ElseIf ($spdChoice -eq 2) {
+                ForEach ($Group in $spdAPMGroups) {
+                    Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+                    }
+                        }
+            Else {
+                -Prompt "Incorrect choice"
+                }
+        break;
+        }
+
+        6 {
+            ForEach ($Group in $marketingGroups) {
+                Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+                }
+        break;
+                    }
+
+        7 {
+            ForEach ($Group in $superintendentGroups) {
+                Add-ADPrincipalGroupMembership -Identity $userName -MemberOf $Group
+                }
+        break;
+                    }
