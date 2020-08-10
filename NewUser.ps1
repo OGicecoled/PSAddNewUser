@@ -58,7 +58,7 @@ $userConfig = @{
 
 New-ADUser -Credential $adminCredential  @userConfig -Path "OU=Elforddotcom, OU=Users, OU=Accounts, DC=elford,DC=com"
 
-DO {
+Do {
 $userDepartment = Read-Host -Prompt "What department is the user in? Input the corresponding number.`n 1. Accounting`n 2. Estimating`n 3. HR`n 4. Ops`n 5. SPD`n 6. Marketing`n 7. Superintendent`n"
 
     If ($userDepartment -lt 1 -or $userDepartment -gt 7) {
@@ -106,7 +106,21 @@ Switch($userDepartment){
                     }
                         }
             Else {
-                -Prompt "Incorrect choice"
+                Do {
+                Write-Output "Incorrect choice"
+                $opsChoice = Read-Host -Prompt "Is this user a 1. PM or 2. APM?"
+
+                If ($opsChoice -eq 1) {
+                ForEach ($Group in $opsPMGroups) {
+                    Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
+                    }
+                        }
+            ElseIf ($spdChoice -eq 2) {
+                ForEach ($Group in $opsAPMGroups) {
+                    Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
+                    }
+                        }
+                    } While ($spdChoice -ne 1 -or $spdChoice -ne 2)
                 }
         break;
         }
@@ -123,7 +137,21 @@ Switch($userDepartment){
                     }
                         }
             Else {
-                -Prompt "Incorrect choice"
+                Do {
+                Write-Output "Incorrect choice"
+                $spdChoice = Read-Host -Prompt "Is this user a 1. PM or 2. APM?"
+
+                If ($spdChoice -eq 1) {
+                ForEach ($Group in $spdPMGroups) {
+                    Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
+                    }
+                        }
+            ElseIf ($spdChoice -eq 2) {
+                ForEach ($Group in $spdAPMGroups) {
+                    Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
+                    }
+                        }
+                    } While ($spdChoice -ne 1 -or $spdChoice -ne 2)
                 }
         break;
         }
@@ -141,18 +169,4 @@ Switch($userDepartment){
                 }
         break;
                     }
-                            
-        6 {
-            ForEach ($Group in $marketingGroups) {
-                Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
-                }
-        break;
-                    }
-
-        7 {
-            ForEach ($Group in $superintendentGroups) {
-                Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
-                }
-        break;
-                    }
-                            }
+    }
