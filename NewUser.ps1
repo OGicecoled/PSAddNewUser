@@ -115,12 +115,12 @@ Switch($userDepartment){
                     Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
                     }
                         }
-            ElseIf ($spdChoice -eq 2) {
+            ElseIf ($opsChoice -eq 2) {
                 ForEach ($Group in $opsAPMGroups) {
                     Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
                     }
                         }
-                    } While ($spdChoice -ne 1 -or $spdChoice -ne 2)
+                    } Until ($opsChoice -ne 1 -or $opsChoice -ne 2)
                 }
         break;
         }
@@ -151,7 +151,7 @@ Switch($userDepartment){
                     Add-ADPrincipalGroupMembership -Credential $adminCredential -Identity $userName -MemberOf $Group
                     }
                         }
-                    } While ($spdChoice -ne 1 -or $spdChoice -ne 2)
+                    } Until ($spdChoice -ne 1 -or $spdChoice -ne 2)
                 }
         break;
         }
